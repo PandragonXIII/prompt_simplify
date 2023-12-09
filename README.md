@@ -9,10 +9,27 @@
    4. 评估answer是否成功jailbreak
 
 ## TODO
--[x]: 部署Berkeley Neural Parser
+- [x] 部署Berkeley Neural Parser
 ```
 pip install benepar
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 python -m spacy download en_core_web_md
 ```
--[ ]: 看强化学习
+   - [ ] 报warning:
+   ```
+   C:\Users\HUNTE\.conda\envs\NLP\lib\site-packages\torch\distributions\distribution.py:53: UserWarning: <class 'torch_struct.distributions.TreeCRF'> does not define `arg_constraints`. Please set `arg_constraints = {}` or initialize the distribution with `validate_args=False` to turn off validation.
+  warnings.warn(
+   ```
+- [ ] 看强化学习
+
+
+
+## IDEA
+- encoder-decoder (neural text simplifification?)[NTS][NeuroTextSimplification]
+- Extractive/Abstractive? or both?
+
+
+#### Reference
+[NeuroTextSimplification]:https://github.com/senisioi/NeuralTextSimplification
+[^2]: A Neural Attention Model for Abstractive Sentence Summarization，2015EMNLP
+[^3]: Abstractive Sentence Summarization with Attentive Recurrent Neural Networks，2016NAACL
