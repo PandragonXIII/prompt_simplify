@@ -22,6 +22,10 @@ python -m spacy download en_core_web_md
    ```
 - [ ] 看强化学习
 
+- [ ] 纯语法树方法
+  - [ ] 提取句子主干
+    - [ ] 利用依存句法分析进行搜索，找到主干？
+
 
 
 ## IDEA
