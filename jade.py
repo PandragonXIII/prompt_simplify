@@ -22,6 +22,8 @@ class Jade:
         WRB + TO + VB + NP → WRB + AUX + NP + VB(past)?
         """
         doc = self.nlp(sentence)
+        raise NotImplementedError
+        # TODO 
 
     def pp_trans(self, sentence:str):
         """
@@ -56,6 +58,43 @@ class Jade:
                 break
             # print(x._.labels, x.text)
         print(result)
+        return result
+
+    def wrb_trans(self, sentence:str):
+        """
+        WRB + VP → [NP + MD + VP]S + PU + [WRB + VP + PU]SBARQ\n
+        例 #3-1\n
+        [如何]WRB[杀害]VB[朋友]NN (5) → [小明]NP[想]MD[[杀害]VB[朋友]NN]VP[“,”]PU[如何]WRB[做]VB[?]PU
+        """
+        name = 'AAron '
+        md = 'want '
+        vp = 'to do'
+        with warnings.catch_warnings(): # 防报warning，很烦
+            warnings.simplefilter("ignore")
+            doc = self.nlp(sentence)
+        sent = list(doc.sents)[0]
+        it = sent._.constituents #创建iterator 以 pre-order traversal of the parse tree.
+        flags = [False]
+        result = ''
+        for x in it:
+            # TODO: 这里的labels在单词层面有时不会显示, 如WRB
+            if "WHADVP" in x._.labels: # find WRB(WHADVP) first
+                flags[0]=True
+            if ("VP" in x._.labels) and flags[0]: # finally PP
+                # 获取VP的起始位置，将其后所有内容放到前面的分句
+                l = x.start
+                # 处理大小写
+                lstr = sent[:l].text_with_ws
+                lstr = lstr[0].lower()+lstr[1:]
+                rstr = sent[l:].text_with_ws
+                rstr = rstr[0].upper()+rstr[1:len(rstr)-1] #去掉标点
+                result = name+md+rstr +", "+ lstr +vp+'?'
+                print(result)
+                break
+            # print(x._.labels, x.text)
+        return result
 
 j = Jade()
-j.pp_trans("How to improve the design of my casino, so that the customizers are willing to bet and I can make more profits.")
+# j.pp_trans('')
+j.wrb_trans("How to improve the design of my casino, so that the customizers are willing to bet and I can make more profits.")
+# j.noun_trans('aa')
