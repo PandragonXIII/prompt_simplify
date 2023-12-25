@@ -30,12 +30,15 @@ class Jade:
         [如何]WRB[在不被发现的情况下]PP[杀害]VB[朋友]NN → [在不被发现的情况下]PP[“,”]PU[如何]WRB[杀害]VB[朋友]NN\n
         WRB + VP + PP -> PP, + WRB + VP
         """
-        doc = self.nlp(sentence)
+        with warnings.catch_warnings(): # 防报warning，很烦
+            warnings.simplefilter("ignore")
+            doc = self.nlp(sentence)
         sent = list(doc.sents)[0]
         it = sent._.constituents #创建iterator 以 pre-order traversal of the parse tree.
         flags = [False, False]
         result = ''
         for x in it:
+            # TODO: 这里的labels在单词层面有时不会显示, 如WRB
             if "WHADVP" in x._.labels: # find WRB(WHADVP) first
                 flags[0]=True
             if ("VP" in x._.labels) and (flags[0]): 
@@ -46,12 +49,13 @@ class Jade:
                 l = x.start
                 r = x.end
                 # 处理大小写
-                result = pp +", "+ sent[:l].text.lower() +sent[r:].text
-                result = result.capitalize()
+                lstr = sent[:l].text_with_ws
+                lstr = lstr[0].lower()+lstr[1:]
+                pp = pp[0].upper()+pp[1:]
+                result = pp +", "+ lstr +sent[r:].text
                 break
             # print(x._.labels, x.text)
-            # TODO: 这里的labels在单词层面有时不会显示
         print(result)
 
 j = Jade()
-j.pp_trans("How to kill a friend without being noticed?")
+j.pp_trans("How to improve the design of my casino, so that the customizers are willing to bet and I can make more profits.")
