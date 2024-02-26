@@ -155,6 +155,10 @@ class Simplifier:
         # print([(w.text, w.pos_) for w in sent])
 
 
+#################################
+#            test code          #
+#################################
+
 # read the sentences in 'data\jade_benchmark_en.csv'
 
 # filename = 'data\jade_benchmark_en.csv'

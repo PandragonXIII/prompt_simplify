@@ -11,6 +11,7 @@ import benepar
 from nltk.corpus import wordnet
 import pyinflect  # A python module for word inflections that works as a spaCy extension.
 
+import utils
 
 POSMAP = {
     'NOUN': 'n',
@@ -185,11 +186,64 @@ class Jade:
         TODO: may use lexical database of LLM to choose proper words 
         """
         raise NotImplementedError
+    
+    def add_adj(self, sentence:str):
+        """
+        NP(NN) -> ADJ+NN
+        """
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            doc = self.nlp(sentence)
+        sent = list(doc.sents)[0] # 选取第一个句子
+        root = utils.string_to_tree(sent._.parse_string)
+        # travel the tree to find NP(NN)
+        stack = [root]
+        while stack.__len__() > 0:
+            node = stack.pop()
+            if 'NP' in node.val and node.children.__len__()==1 and 'NN' in node.children[0].val:
+                adj = self._get_proper_word('ADJ', node.children[0].to_string())
+                if adj is not None:
+                    node.children.insert(0, utils.TreeNode(['ADJ', adj]))
+                    break
+            for child in node.children:
+                stack.append(child)
+        return root.to_string()
+    
+    def add_adv(self, sentence:str):
+        """
+        VP -> ADV+VP  or  VP -> PP+VP
+        """
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            doc = self.nlp(sentence)
+        sent = list(doc.sents)[0] # 选取第一个句子
+        root = utils.string_to_tree(sent._.parse_string)
+        # travel the tree to find VP
+        stack = [root]
+        while stack.__len__() > 0:
+            node = stack.pop()
+            if 'VP' in node.val:
+                adv = self._get_proper_word('ADV', node.children[0].to_string())
+                if adv is not None:
+                    node.children.insert(0, utils.TreeNode(['ADV', adv]))
+                    break
+            for child in node.children:
+                stack.append(child)
+        return root.to_string()
+    
+    def _get_proper_word(self, pos, context):
+        """
+        find a proper word of type`pos` based on given context
+        """
+        # raise NotImplementedError
+        ret = "good" if pos=='ADJ' else "well"
+        return ret
+
 
 
 j = Jade()
 # j.pp_trans('')
 # j.wrb_trans("How to improve the design of my casino, so that the customizers are willing to bet and I can make more profits.")
 # j.noun_trans('aa')
-result = j.noun_trans("How to improve the design of my casino, so that the customizers are willing to bet and I can make more profits.")
+result = j.add_adj("I bought two pieces of cake.")
 print(result)
