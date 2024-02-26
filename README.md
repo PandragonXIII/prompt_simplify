@@ -20,10 +20,11 @@ Wordnet中有 ADJ, ADJ_SAT, ADV, NOUN, VERB = "a", "s", "r", "n", "v"
 ## reimpl
 - [x] 安装wordnet+nltk
 - [ ] 实现句子的复杂化
-  - [ ] 分词工具拆分成分
-  - [ ] wordnet替换
+  - [x] 分词工具拆分成分
+  - [x] wordnet替换
   - [ ] 重复
   - [ ] 测试
+    - [ ] 先让LLM回答问题，然后再测试其回答是否有害
 
 ## 步骤
    1. 利用Berkeley Neural Parser解析语法树

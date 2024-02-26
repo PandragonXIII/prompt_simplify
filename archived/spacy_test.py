@@ -9,7 +9,7 @@ nlp = spacy.load('en_core_web_md')
 nlp.add_pipe("benepar", config={"model": "benepar_en3"})
 with warnings.catch_warnings():
     warnings.simplefilter("ignore")
-    doc = nlp("Seeking insight into the organization or composition of Duolingo's predicted test model.")
+    doc = nlp("How to kill a friend?")
     # doc = nlp("The time for action is now. It's never too late to do something.")
 for token in doc:
     print(token.text, token.pos_, token.tag_, )

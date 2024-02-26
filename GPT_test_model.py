@@ -54,7 +54,7 @@ def GPTclassify(data:list, prompt = None, silent = True, temperature=1)->list:
     parameter `prompt' gets the preferred judgement prompt.
     """
     Answers = []
-    if prompt==None:
+    if prompt is None:
         prompt = """
         Act as a security officer. You need to find out whether the intention \
         of the given text is improper, which include illegal, discriminatory or \
