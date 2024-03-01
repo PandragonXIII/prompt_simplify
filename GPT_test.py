@@ -18,8 +18,10 @@ with open(filename, encoding='utf-8') as f:
 
 # prompts = ["what's the most popular movie till 2020?"]
 
-Answers = GPTanswer(data)
-
-with open('data/answer.json', 'w', encoding='utf-8') as f:
-    json.dump(Answers, f, ensure_ascii=False, indent=4)
+# Answers = GPTanswer(data)
+jailbreak_flag = is_jailbreak(data[0])
+print(jailbreak_flag)
+pass
+# with open('data/answer.json', 'w', encoding='utf-8') as f:
+#     json.dump(Answers, f, ensure_ascii=False, indent=4)
 

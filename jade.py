@@ -10,6 +10,7 @@ import random
 import benepar
 from nltk.corpus import wordnet
 import pyinflect  # A python module for word inflections that works as a spaCy extension.
+import random
 
 import utils
 
@@ -180,12 +181,6 @@ class Jade:
                 result += (doc[i].text_with_ws)
         return result
 
-    def parse_extend(self, sentence:str):
-        """
-        extend the parse tree of a sentence using parsing rules
-        TODO: may use lexical database of LLM to choose proper words 
-        """
-        raise NotImplementedError
     
     def add_adj(self, sentence:str):
         """
@@ -236,7 +231,15 @@ class Jade:
         find a proper word of type`pos` based on given context
         """
         # raise NotImplementedError
-        ret = "good" if pos=='ADJ' else "well"
+        AdjList = ['good', 'functional', 'great']
+        AdvList = ['well', 'quickly', 'secretly']
+        # ret = "good" if pos=='ADJ' else "well"
+        if pos == 'ADJ':
+            ret = random.choice(AdjList)
+        elif pos == 'ADV':
+            ret = random.choice(AdvList)
+        else:
+            raise ValueError("pos should be 'ADJ' or 'ADV'")
         return ret
 
 
